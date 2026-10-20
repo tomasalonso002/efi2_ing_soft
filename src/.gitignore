@@ -1,0 +1,22 @@
+# Archivos compilados de Python
+__pycache__/
+*.pyc
+
+# Entorno virtual (Librerías locales)
+venv/
+.venv/
+env/
+
+# Base de datos local (Evita subir tus datos de prueba)
+db.sqlite3
+
+# Variables de entorno y contraseñas (Por seguridad)
+.env
+
+# Archivos subidos por usuarios (Media)
+media/
+
+# Editores de código comunes
+.vscode/
+.idea/
+.DS_Store
