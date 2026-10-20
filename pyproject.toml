@@ -1,0 +1,20 @@
+[project]
+name = "efi2-ing-soft"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Tomas Alonso", email = "t.alonsoarias@itecriocuarto.org.ar" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "django>=6.1.2",
+    "djangorestframework>=3.18.3",
+]
+
+[project.scripts]
+efi2-ing-soft = "efi2_ing_soft:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
