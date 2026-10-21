@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import Group
-from .models import UsuarioPersonalizado
-
+from .models import UsuarioPersonalizado, ListaDeseosProductos
+from catalogo.serializers import ProductoListSerializer
 #Serializer GET usuario
 class UsuarioPublicSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,5 +37,24 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
             }
         
+class ListaDeseosPostSerializer(serializers.ModelField):
+    class Meta:
+        model = ListaDeseosProductos
+        fields=[
+            'usuario',
+            'producto'
+        ]
+        read_only_fields = ['id', 'fecha_at', 'is_active']
 
-        
+class ListaDeseosGetSerializer(serializers.ModelField):
+    usuario = UsuarioPublicSerializer(read_only=True)
+    producto = ProductoListSerializer(read_only=True)
+
+    class Meta:
+        model = ListaDeseosProductos
+        fields={
+            'id',
+            'usuario',
+            'producto'
+        }
+
