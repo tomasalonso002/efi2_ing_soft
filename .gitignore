@@ -25,3 +25,6 @@ media/
 # Editores de código
 .vscode/
 .idea/
+
+*.sql
+memoria.md
