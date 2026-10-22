@@ -15,7 +15,7 @@ from .serializers import UsuarioPublicSerializer,UsuarioSerializer, ListaDeseosG
 
 #View UsuarioCliente
 class UserClienteViewSets(viewsets.ModelViewSet):
-    queryset = UsuarioPersonalizado.objects.filter(is_active = True)
+    queryset = UsuarioPersonalizado.objects.filter(is_active = True, groups__name = 'Cliente' ).order_by('-id')
     serializer_class = UsuarioSerializer
 
     def perform_create(self, serializer):
@@ -39,13 +39,13 @@ class UserClienteViewSets(viewsets.ModelViewSet):
 
 #GET ReadOnly UsuarioCliente
 class UserClienteGetViewSets(viewsets.ReadOnlyModelViewSet):
-    queryset = UsuarioPersonalizado.objects.filter(is_active = True, groups__name = 'Cliente' )
+    queryset = UsuarioPersonalizado.objects.filter(is_active = True, groups__name = 'Cliente' ).order_by('-id')
     serializer_class = UsuarioPublicSerializer
     permission_classes=[PermissionVendedor]
 
 #View UsuarioVendedor
 class UserVendedorViewSets(viewsets.ModelViewSet):
-    queryset = UsuarioPersonalizado.objects.filter(is_active = True)
+    queryset = UsuarioPersonalizado.objects.filter(is_active = True,  groups__name = 'Vendedor' ).order_by('-id')
     serializer_class = UsuarioSerializer
 
     def perform_create(self, serializer):
