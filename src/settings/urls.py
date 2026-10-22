@@ -22,5 +22,7 @@ from usuarios.routers import router as usuarios_routers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('', include("inicio.urls")),
     path('api/usuarios/', include(usuarios_routers.urls)),
 ]
