@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
-
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -73,6 +73,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'settings.wsgi.application'
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication", #Autenticacion con JWT
+        "rest_framework.authentication.SessionAuthentication", #Aunteticacion del navegador
+    ],
+}
+
+#Constante de configuracion para el JWT
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60), #Tiempo de vida del token de acceso
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1), #Tiempo de vida del token de refresco
+    "AUTH_HEADER_TYPES": ("Bearer",), #El tipo de autenticacion que se va a utilizar
+}
 
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
