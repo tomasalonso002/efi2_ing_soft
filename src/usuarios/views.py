@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from django.utils import timezone
 from datetime import timedelta
 
-
+from rest_framework.permissions import AllowAny
 from .permissions import PermissionVendedor, PermissionCliente
 
 from django.contrib.auth.models import Group
@@ -17,6 +17,13 @@ from .serializers import UsuarioPublicSerializer,UsuarioSerializer, ListaDeseosG
 class UserClienteViewSets(viewsets.ModelViewSet):
     queryset = UsuarioPersonalizado.objects.filter(is_active = True, groups__name = 'Cliente' ).order_by('-id')
     serializer_class = UsuarioSerializer
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [PermissionCliente]
+        return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):
         user = serializer.save()
@@ -32,7 +39,7 @@ class UserClienteViewSets(viewsets.ModelViewSet):
         user.email = f'delete-{user.email}-{timestamp}'
         user.dni = f'delete-{user.dni}-{timestamp}'
         user.save()
-        return self.response(
+        return Response(
             {'detail':'El usuario se elimino correctamente'},
             status= status.HTTP_200_OK
         )
@@ -47,6 +54,7 @@ class UserClienteGetViewSets(viewsets.ReadOnlyModelViewSet):
 class UserVendedorViewSets(viewsets.ModelViewSet):
     queryset = UsuarioPersonalizado.objects.filter(is_active = True,  groups__name = 'Vendedor' ).order_by('-id')
     serializer_class = UsuarioSerializer
+    permission_classes=[PermissionVendedor]
 
     def perform_create(self, serializer):
         user = serializer.save()
@@ -62,7 +70,7 @@ class UserVendedorViewSets(viewsets.ModelViewSet):
         user.email = f'delete-{user.email}-{timestamp}'
         user.dni = f'delete-{user.dni}-{timestamp}'
         user.save()
-        return self.response(
+        return Response(
             {'detail':'El vendedor se elimino correctamente'},
             status= status.HTTP_200_OK
         )
@@ -79,6 +87,9 @@ class ListaDeseosProductosPostViewSets(viewsets.ModelViewSet):
     queryset = ListaDeseosProductos.objects.filter(is_active = True)
     serializer_class = ListaDeseosPostSerializer
     permission_classes = [PermissionCliente]
+
+    def perform_create(self, serializer):
+        serializer.save(usuario = self.request.user)
 
     @action(detail=True, methods=['post'])
     def eliminado_logico(self, request, pk=None):

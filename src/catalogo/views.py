@@ -4,11 +4,6 @@ from .models import (
     Marca,
     Producto,
     ProductoImagen,
-    Especificacion,
-    Variante,
-    Compatibilidad,
-    Etiqueta,
-    ProductoEtiqueta,
     Proveedor,
     Compra,
 )
@@ -18,11 +13,6 @@ from .serializers import (
     ProductoSerializer,
     ProductoListSerializer,
     ProductoImagenSerializer,
-    EspecificacionSerializer,
-    VarianteSerializer,
-    CompatibilidadSerializer,
-    EtiquetaSerializer,
-    ProductoEtiquetaSerializer,
     ProveedorSerializer,
     CompraSerializer,
 )
@@ -50,31 +40,6 @@ class ProductoViewSet(viewsets.ModelViewSet):
 class ProductoImagenViewSet(viewsets.ModelViewSet):
     queryset = ProductoImagen.objects.all()
     serializer_class = ProductoImagenSerializer
-
-
-class EspecificacionViewSet(viewsets.ModelViewSet):
-    queryset = Especificacion.objects.all()
-    serializer_class = EspecificacionSerializer
-
-
-class VarianteViewSet(viewsets.ModelViewSet):
-    queryset = Variante.objects.all()
-    serializer_class = VarianteSerializer
-
-
-class CompatibilidadViewSet(viewsets.ModelViewSet):
-    queryset = Compatibilidad.objects.all()
-    serializer_class = CompatibilidadSerializer
-
-
-class EtiquetaViewSet(viewsets.ModelViewSet):
-    queryset = Etiqueta.objects.all()
-    serializer_class = EtiquetaSerializer
-
-
-class ProductoEtiquetaViewSet(viewsets.ModelViewSet):
-    queryset = ProductoEtiqueta.objects.all()
-    serializer_class = ProductoEtiquetaSerializer
 
 
 class ProveedorViewSet(viewsets.ModelViewSet):
