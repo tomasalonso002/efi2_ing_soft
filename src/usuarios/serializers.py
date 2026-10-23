@@ -36,8 +36,11 @@ class UsuarioSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': True}
             }
-        
-class ListaDeseosPostSerializer(serializers.ModelField):
+        def create(self, validated_data):
+            return UsuarioPersonalizado.objects.create_user(**validated_data)        
+
+
+class ListaDeseosPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = ListaDeseosProductos
         fields=[
@@ -46,15 +49,15 @@ class ListaDeseosPostSerializer(serializers.ModelField):
         ]
         read_only_fields = ['id', 'fecha_at', 'is_active']
 
-class ListaDeseosGetSerializer(serializers.ModelField):
+class ListaDeseosGetSerializer(serializers.ModelSerializer):
     usuario = UsuarioPublicSerializer(read_only=True)
     producto = ProductoListSerializer(read_only=True)
 
     class Meta:
         model = ListaDeseosProductos
-        fields={
+        fields=[
             'id',
             'usuario',
             'producto'
-        }
+        ]
 
