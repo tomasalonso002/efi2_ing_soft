@@ -6,10 +6,12 @@ from .models import (
     ProductoImagen,
     Proveedor,
     Compra,
-    DetalleCompra
+    DetalleCompra,
+    Venta,
+    DetalleVenta
+
 )
-
-
+#MARCA
 class MarcaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Marca
@@ -19,6 +21,7 @@ class MarcaSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id','is_active','created_at']
 
+#PROVEEDOR
 class ProveedorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Proveedor
@@ -28,53 +31,22 @@ class ProveedorSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id', 'is_active', 'created_at', 'updated_at']
 
+#CATEGORIA
+class CategoriaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Categoria
+        fields = [
+            'id', 'nombre', 'descripcion', 'is_active', 'created_at',
+        ]
+        read_only_fields = ['id', 'created_at','is_active']
+
+#PRODUCTO
 class ProductoImagenSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductoImagen
         fields = [
             'id', 'producto', 'imagen_url', 'alt_text', 'orden',
             'es_principal', 'created_at','is_active'
-        ]
-        read_only_fields = ['id', 'created_at','is_active']
-
-#class VarianteSerializer(serializers.ModelSerializer):
-#    class Meta:
-#        model = Variante
-#        fields = [
-#            'id', 'producto', 'sku_variante', 'nombre', 'precio_adicional',
-#            'stock', 'activa', 'atributos', 'created_at', 'updated_at',
-#        ]
-#        read_only_fields = ['id', 'created_at', 'updated_at']
-
-#    def validate_stock(self, value):
-#        if value < 0:
-#            raise serializers.ValidationError('El stock no puede ser negativo.')
-#        return value
-
-class CompraSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Compra
-        fields = [
-            'id', 'proveedor', 'total', 'estado', 'nro_factura',
-            'created_at','is_active'
-        ]
-        read_only_fields = ['id', 'created_at','is_active']
-
-class DetalleCompraSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DetalleCompra
-        field = [
-            'id','compra','producto','unidades','precio','created_at'
-        ]
-        read_only_fields = ['id', 'created_at','is_active']
-
-
-
-class CategoriaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Categoria
-        fields = [
-            'id', 'nombre', 'descripcion', 'is_active', 'created_at',
         ]
         read_only_fields = ['id', 'created_at','is_active']
 
@@ -90,13 +62,35 @@ class ProductoSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id', 'created_at', 'updated_at','is_active']
 
-
 class ProductoListSerializer(ProductoSerializer):
     marca = MarcaSerializer(read_only=True)
     categoria = CategoriaSerializer(read_only=True)
     imagenes = ProductoImagenSerializer(many=True, read_only=True)
-
+    
     class Meta(ProductoSerializer.Meta):
         fields = ProductoSerializer.Meta.fields + [
             'marca', 'categoria', 'imagenes', 'especificaciones', 'variantes',
         ]
+
+#COMPRA
+class CompraSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Compra
+        fields = [
+            'id', 'proveedor', 'total', 'estado', 'nro_factura',
+            'created_at','is_active'
+        ]
+        read_only_fields = ['id', 'created_at','is_active']
+
+
+class DetalleCompraSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DetalleCompra
+        field = [
+            'id','compra','producto','unidades','precio','created_at'
+        ]
+        read_only_fields = ['id', 'created_at','is_active']
+
+
+
+

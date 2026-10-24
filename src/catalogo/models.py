@@ -14,7 +14,6 @@ class Categoria(models.Model):
 class Marca(models.Model):
     id = models.BigAutoField(primary_key=True)
     nombre = models.CharField(max_length=150, null=False)
-    slug = models.SlugField(max_length=200, unique=True, null=False)
     logo = models.CharField(max_length=500, blank=True, null=True)
     descripcion = models.TextField(blank=True, null=True)
     pais_origen = models.CharField(max_length=100, blank=True, null=True)
@@ -29,8 +28,6 @@ class Producto(models.Model):
     descripcion_corta = models.CharField(max_length=500, blank=True, null=True)
     descripcion_larga = models.TextField(blank=True, null=True)
     sku = models.CharField(max_length=100, unique=True, null=False)
-
-    #ver
     precio_lista = models.DecimalField(max_digits=12, decimal_places=2, null=False)
     precio_oferta = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     stock_total = models.IntegerField(default=0, null=False)
@@ -91,6 +88,7 @@ class DetalleCompra(models.Model):
     unidades = models.PositiveIntegerField(max_length=50, blank=True, null=True)
     precio = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     created_at = models.DateTimeField(auto_now_add=True, null=False)
+    is_active = models.BooleanField(default=True, null=False)
     def __str__(self):
         return f'Compra {self.id} - Nro_factura:{self.compra.nro_factura}'
 
@@ -102,7 +100,6 @@ class Venta(models.Model):
         ('cancelada', 'Cancelada'),
     ]
     id = models.BigAutoField(primary_key=True)
-    # En ventas se vincula al Cliente en lugar del Proveedor
     cliente = models.ForeignKey('usuarios.UsuarioPersonalizado', on_delete=models.PROTECT, null=False, related_name='ventas',)
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='pendiente', null=False)
     nro_factura = models.CharField(max_length=50, blank=True, null=True)
