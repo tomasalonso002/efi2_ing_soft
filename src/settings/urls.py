@@ -19,17 +19,16 @@ from django.urls import path, include
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView 
 
-from usuarios.routers import urlpatterns as usuarios_urls
+from usuarios.routers import router as usuarios_routers
 from catalogo.routers import router as catalogo_routers
 
 urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-
     path('admin/', admin.site.urls),
-    path('', include('inicio.urls')),
-    path('api/usuarios/', include(usuarios_urls)),
+
+    path('api/usuarios/', include(usuarios_routers.urls)),
     path('api/catalogo/', include(catalogo_routers.urls)),
 ]
 
