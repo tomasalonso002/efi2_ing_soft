@@ -1,16 +1,32 @@
-from .views import CategoriaViewSet, MarcaViewSet, ProductoViewSet, ProductoImagenViewSet, EspecificacionViewSet, VarianteViewSet, CompatibilidadViewSet, EtiquetaViewSet, ProductoEtiquetaViewSet, ProveedorViewSet, CompraViewSet
+from .views import CategoriaGetViewSet, CategoriaViewSet, MarcaGetViewSet, MarcaViewSet, ProveedorViewSet,ProveedorGetViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
+#CATEGORIA
+router.register('categoria', CategoriaViewSet, basename='categoria-api')
+router.register('categoria-get', CategoriaGetViewSet, basename='categoria-get-api')
+#MARCA
+router.register('marca', MarcaViewSet, basename='marca-api')
+router.register('marca-get', MarcaGetViewSet, basename='marca-get-api')
+#PROVEEDOR
+router.register('proveedor', ProveedorViewSet, basename='proveedor-api')
+router.register('proveedor-get', ProveedorGetViewSet, basename='proveedor-get-api')
+#PRODUCTO
 
-router.register('categorias', CategoriaViewSet, basename='categoria-api')
-router.register('marcas', MarcaViewSet, basename='marca')
-router.register('productos', ProductoViewSet, basename='producto')
-router.register('producto-imagenes', ProductoImagenViewSet, basename='producto-imagen')
-router.register('especificaciones', EspecificacionViewSet, basename='especificacion')
-router.register('variantes', VarianteViewSet, basename='variante')
-router.register('compatibilidades', CompatibilidadViewSet, basename='compatibilidad')
-router.register('etiquetas', EtiquetaViewSet, basename='etiqueta')
-router.register('producto-etiquetas', ProductoEtiquetaViewSet, basename='producto-etiqueta')
-router.register('proveedores', ProveedorViewSet, basename='proveedor')
-router.register('compras', CompraViewSet, basename='compra')
+
+#PRODUCTO_IMAGEN
+
+
+#COMPRA
+
+
+#DETALLE_COMPRA
+
+
+#VENTA
+
+
+#DETALLE VENTA
+
+
+#
