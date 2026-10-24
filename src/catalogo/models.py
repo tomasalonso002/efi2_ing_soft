@@ -31,13 +31,11 @@ class Producto(models.Model):
     precio_lista = models.DecimalField(max_digits=12, decimal_places=2, null=False)
     precio_oferta = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     stock_total = models.IntegerField(default=0, null=False)
-
     is_active = models.BooleanField(default=True, null=False)
     destacado = models.BooleanField(default=False, null=False)
     marca = models.ForeignKey(Marca,on_delete=models.PROTECT,null=False,related_name='productos')
     categoria = models.ForeignKey(Categoria,on_delete=models.PROTECT,null=False,related_name='productos')
     created_at = models.DateTimeField(auto_now_add=True, null=False)
-    updated_at = models.DateTimeField(auto_now=True, null=False)
     def __str__(self):
         return self.nombre
     
@@ -61,7 +59,6 @@ class Proveedor(models.Model):
     direccion = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True, null=False)
     created_at = models.DateTimeField(auto_now_add=True, null=False)
-    updated_at = models.DateTimeField(auto_now=True, null=False)
     def __str__(self):
         return self.nombre
 

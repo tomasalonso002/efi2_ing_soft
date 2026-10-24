@@ -1,6 +1,5 @@
 from .views import UserClienteViewSets, UserVendedorViewSets, UserClienteGetViewSets, UserVendedorGetViewSets, ListaDeseosProductosPostViewSets, ListaDeseosProductosViewSets            
 from rest_framework.routers import DefaultRouter
-from django.urls import path 
 router = DefaultRouter()
 
 router.register('cliente', UserClienteViewSets, basename='user-cliente-api')
