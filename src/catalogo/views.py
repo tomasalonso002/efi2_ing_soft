@@ -1,6 +1,7 @@
 from rest_framework import viewsets,status
 from rest_framework.response import Response
-
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 from django.utils import timezone
 from datetime import timedelta
@@ -108,6 +109,11 @@ class ProveedorGetViewSet(viewsets.ReadOnlyModelViewSet):
 class ProductoViewSet(viewsets.ModelViewSet):
     queryset = Producto.objects.filter(is_active=True).order_by('-created_at')
     serializer_class = ProductoSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['marca', 'categoria', 'destacado', 'is_active']
+    search_fields = ['nombre', 'sku', 'descripcion_corta']
+    ordering_fields = ['precio_lista', 'precio_oferta', 'stock_total', 'created_at']
+    ordering = ['-created_at']
 
     def get_authenticators(self):
         if self.request.method == 'GET':
