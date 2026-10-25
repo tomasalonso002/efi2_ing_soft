@@ -13,7 +13,7 @@ from usuarios.permissions import PermissionVendedor, PermissionCliente
 from rest_framework.decorators import action
 
 from .models import (Categoria,Marca,Producto,ProductoImagen,Proveedor,Compra,DetalleCompra,Venta,DetalleVenta)
-from .serializers import (CategoriaSerializer,MarcaSerializer,ProductoSerializer,ProductoListSerializer,ProductoImagenSerializer,ProveedorSerializer,CompraSerializer,DetalleCompraSerializer,VentaSerializer,DetalleVentaSerializer,)
+from .serializers import (CategoriaSerializer,MarcaSerializer,ProductoSerializer,ProductoListSerializer,ProductoImagenSerializer,ProveedorSerializer,CompraSerializer,DetalleCompraSerializer,VentaSerializer,DetalleVentaSerializer,CompraListSerializer,)
 
 #CATEGORIA
 
@@ -213,6 +213,11 @@ class CompraViewSet(viewsets.ModelViewSet):
 class CompraGetViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Compra.objects.filter(is_active=True).select_related('proveedor').order_by('-created_at')
     serializer_class = CompraSerializer
+    permission_classes = [AllowAny]
+
+class CompraListGetViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Compra.objects.filter(is_active=True).select_related('proveedor').prefetch_related('detalle_compra').order_by('-created_at')
+    serializer_class = CompraListSerializer
     permission_classes = [AllowAny]
 
 #DETALLE_COMPRA

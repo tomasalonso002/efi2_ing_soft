@@ -1,4 +1,4 @@
-from .views import (CategoriaGetViewSet, CategoriaViewSet, MarcaGetViewSet, MarcaViewSet, ProveedorViewSet,ProveedorGetViewSet, ProductoViewSet, ProductoGetViewSet, CompraViewSet, CompraGetViewSet, DetalleCompraViewSet, DetalleCompraGetViewSet, VentaViewSet, VentaGetViewSet, DetalleVentaViewSet, DetalleVentaGetViewSet, ProductoImagenViewSet, ProductoImagenGetViewSet)
+from .views import (CategoriaGetViewSet, CategoriaViewSet, MarcaGetViewSet, MarcaViewSet, ProveedorViewSet,ProveedorGetViewSet, ProductoViewSet, ProductoGetViewSet, CompraViewSet, CompraGetViewSet, CompraListGetViewSet, DetalleCompraViewSet, DetalleCompraGetViewSet, VentaViewSet, VentaGetViewSet, DetalleVentaViewSet, DetalleVentaGetViewSet, ProductoImagenViewSet, ProductoImagenGetViewSet)
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -23,6 +23,7 @@ router.register('producto-imagen-get', ProductoImagenGetViewSet, basename='produ
 #COMPRA
 router.register('compra', CompraViewSet, basename='compra-api')
 router.register('compra-get', CompraGetViewSet, basename='compra-get-api')
+router.register('compra-list', CompraListGetViewSet, basename='compra-list-api')
 
 #DETALLE_COMPRA
 router.register('detalle-compra', DetalleCompraViewSet, basename='detalle-compra-api')
