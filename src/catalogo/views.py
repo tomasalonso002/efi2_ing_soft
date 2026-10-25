@@ -141,6 +141,39 @@ class ProductoGetViewSet(viewsets.ReadOnlyModelViewSet):
 
 #PRODUCTO_IMG
 
+class ProductoImagenViewSet(viewsets.ModelViewSet):
+    queryset = ProductoImagen.objects.filter(is_active=True).order_by('-created_at')
+    serializer_class = ProductoImagenSerializer
+
+    def get_authenticators(self):
+        if self.request.method == 'GET':
+            return []
+        return super().get_authenticators()
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [PermissionVendedor]
+        return [permission() for permission in permission_classes]
+
+    @action(detail=True, methods=['post'])
+    def eliminado_logico(self, request, pk=None):
+        imagen = self.get_object()
+        timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
+        imagen.is_active = False
+        imagen.imagen_url = f'delete-{imagen.imagen_url}-{timestamp}' if imagen.imagen_url else f'delete-{timestamp}'
+        imagen.save()
+        return Response(
+            {'detail':'La imagen se elimino correctamente'},
+            status=status.HTTP_200_OK
+        )
+
+class ProductoImagenGetViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = ProductoImagen.objects.filter(is_active=True).select_related('producto').order_by('-created_at')
+    serializer_class = ProductoImagenSerializer
+    permission_classes = [AllowAny]
+
 #COMPRA
 
 class CompraViewSet(viewsets.ModelViewSet):
