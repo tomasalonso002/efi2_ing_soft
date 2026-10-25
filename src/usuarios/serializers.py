@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import Group
 from .models import UsuarioPersonalizado, ListaDeseosProductos
-from catalogo.serializers import ProductoListSerializer
+from catalogo.serializers import ProductoGETSerializer
 #Serializer GET usuario
 class UsuarioPublicSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,7 +50,7 @@ class ListaDeseosPostSerializer(serializers.ModelSerializer):
 
 class ListaDeseosGetSerializer(serializers.ModelSerializer):
     usuario = UsuarioPublicSerializer(read_only=True)
-    producto = ProductoListSerializer(read_only=True)
+    producto = ProductoGETSerializer(read_only=True)
 
     class Meta:
         model = ListaDeseosProductos
