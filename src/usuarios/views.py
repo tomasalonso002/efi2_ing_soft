@@ -104,7 +104,7 @@ class ListaDeseosProductosPostViewSets(viewsets.ModelViewSet):
         producto.is_active = False
         producto.nombre = f'delete-{producto}-{timestamp}'
         producto.save()
-        return self.response(
+        return Response(
             {'detail':'Se quito el producto de lista de deseos'},
             status= status.HTTP_200_OK
         )

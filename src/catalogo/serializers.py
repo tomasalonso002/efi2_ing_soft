@@ -87,11 +87,27 @@ class CompraSerializer(serializers.ModelSerializer):
 class DetalleCompraSerializer(serializers.ModelSerializer):
     class Meta:
         model = DetalleCompra
-        field = [
-            'id','compra','producto','unidades','precio','created_at'
+        fields = [
+            'id','compra','producto','unidades','precio','created_at', 'is_active'
         ]
         read_only_fields = ['id', 'created_at','is_active']
 
 
+#VENTA
+class VentaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Venta
+        fields = [
+            'id', 'cliente', 'estado', 'nro_factura',
+            'created_at', 'is_active'
+        ]
+        read_only_fields = ['id', 'created_at', 'is_active']
 
-
+class DetalleVentaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DetalleVenta
+        fields = [
+            'id', 'venta', 'producto', 'unidades', 'precio_unitario',
+            'created_at', 'is_active'
+        ]
+        read_only_fields = ['id', 'created_at', 'is_active']
