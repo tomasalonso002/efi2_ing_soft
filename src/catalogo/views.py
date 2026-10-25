@@ -11,8 +11,8 @@ from usuarios.permissions import PermissionVendedor, PermissionCliente
 
 from rest_framework.decorators import action
 
-from .models import (Categoria,Marca,Producto,ProductoImagen,Proveedor,Compra,DetalleCompra)
-from .serializers import (CategoriaSerializer,MarcaSerializer,ProductoSerializer,ProductoListSerializer,ProductoImagenSerializer,ProveedorSerializer,CompraSerializer,DetalleCompraSerializer,)
+from .models import (Categoria,Marca,Producto,ProductoImagen,Proveedor,Compra,DetalleCompra,Venta,DetalleVenta)
+from .serializers import (CategoriaSerializer,MarcaSerializer,ProductoSerializer,ProductoListSerializer,ProductoImagenSerializer,ProveedorSerializer,CompraSerializer,DetalleCompraSerializer,VentaSerializer,DetalleVentaSerializer,)
 
 #CATEGORIA
 
@@ -212,4 +212,69 @@ class DetalleCompraGetViewSet(viewsets.ReadOnlyModelViewSet):
 
 #VENTA
 
-#DETALLE_VENTA
+class VentaViewSet(viewsets.ModelViewSet):
+    queryset = Venta.objects.filter(is_active=True).order_by('-created_at')
+    serializer_class = VentaSerializer
+
+    def get_authenticators(self):
+        if self.request.method == 'GET':
+            return []
+        return super().get_authenticators()
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [PermissionVendedor]
+        return [permission() for permission in permission_classes]
+
+    @action(detail=True, methods=['post'])
+    def eliminado_logico(self, request, pk=None):
+        venta = self.get_object()
+        timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
+        venta.is_active = False
+        venta.nro_factura = f'delete-{venta.nro_factura}-{timestamp}' if venta.nro_factura else f'delete-{timestamp}'
+        venta.save()
+        return Response(
+            {'detail':'La venta se elimino correctamente'},
+            status=status.HTTP_200_OK
+        )
+
+class VentaGetViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Venta.objects.filter(is_active=True).select_related('cliente').order_by('-created_at')
+    serializer_class = VentaSerializer
+    permission_classes = [AllowAny]
+
+#DETALLE VENTA
+
+class DetalleVentaViewSet(viewsets.ModelViewSet):
+    queryset = DetalleVenta.objects.filter(is_active=True).order_by('-created_at')
+    serializer_class = DetalleVentaSerializer
+
+    def get_authenticators(self):
+        if self.request.method == 'GET':
+            return []
+        return super().get_authenticators()
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [PermissionVendedor]
+        return [permission() for permission in permission_classes]
+
+    @action(detail=True, methods=['post'])
+    def eliminado_logico(self, request, pk=None):
+        detalle = self.get_object()
+        timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
+        detalle.is_active = False
+        detalle.save()
+        return Response(
+            {'detail':'El detalle de venta se elimino correctamente'},
+            status=status.HTTP_200_OK
+        )
+
+class DetalleVentaGetViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = DetalleVenta.objects.filter(is_active=True).select_related('venta', 'producto').order_by('-created_at')
+    serializer_class = DetalleVentaSerializer
+    permission_classes = [AllowAny]
