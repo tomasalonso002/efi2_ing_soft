@@ -73,6 +73,7 @@ class Compra(models.Model):
     proveedor = models.ForeignKey(Proveedor,on_delete=models.PROTECT,null=False,related_name='compras')
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='pendiente', null=False)
     nro_factura = models.CharField(max_length=50, blank=True, null=True)
+    total = models.DecimalField(max_digits=12, decimal_places=2, default=0, null=False)
     created_at = models.DateTimeField(auto_now_add=True, null=False)
     is_active = models.BooleanField(default=True, null=False)
     def __str__(self):

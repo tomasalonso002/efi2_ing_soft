@@ -87,8 +87,8 @@ class CompraSerializer(serializers.ModelSerializer):
 class DetalleCompraSerializer(serializers.ModelSerializer):
     class Meta:
         model = DetalleCompra
-        field = [
-            'id','compra','producto','unidades','precio','created_at'
+        fields = [
+            'id','compra','producto','unidades','precio','created_at', 'is_active'
         ]
         read_only_fields = ['id', 'created_at','is_active']
 
