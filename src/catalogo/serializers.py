@@ -46,7 +46,7 @@ class ProductoImagenSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductoImagen
         fields = [
-            'id', 'producto', 'imagen_url', 'alt_text', 'orden',
+            'id', 'producto', 'imagen_url', 'alt_text',
             'es_principal', 'created_at','is_active'
         ]
         read_only_fields = ['id', 'created_at','is_active']
@@ -57,20 +57,20 @@ class ProductoSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'nombre', 'descripcion_corta', 'descripcion_larga',
             'sku', 'precio_lista', 'precio_oferta',
-            'stock_total', 'stock_reservado', 'is_active', 'destacado',
+            'stock_total','is_active', 'destacado',
             'marca', 'categoria',
-            'created_at', 'updated_at',
+            'created_at'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at','is_active']
+        read_only_fields = ['id', 'created_at','is_active']
 
-class ProductoListSerializer(ProductoSerializer):
+class ProductoGETSerializer(ProductoSerializer):
     marca = MarcaSerializer(read_only=True)
     categoria = CategoriaSerializer(read_only=True)
     imagenes = ProductoImagenSerializer(many=True, read_only=True)
     
     class Meta(ProductoSerializer.Meta):
         fields = ProductoSerializer.Meta.fields + [
-            'marca', 'categoria', 'imagenes', 'especificaciones', 'variantes',
+            'marca', 'descripcion_corta','descripcion_larga','categoria', 'imagenes','stock_total'
         ]
 
 #COMPRA

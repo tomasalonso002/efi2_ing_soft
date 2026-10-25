@@ -12,7 +12,7 @@ from usuarios.permissions import PermissionVendedor, PermissionCliente
 from rest_framework.decorators import action
 
 from .models import (Categoria,Marca,Producto,ProductoImagen,Proveedor,Compra)
-from .serializers import (CategoriaSerializer,MarcaSerializer,ProductoSerializer,ProductoListSerializer,ProductoImagenSerializer,ProveedorSerializer,CompraSerializer,)
+from .serializers import (CategoriaSerializer,MarcaSerializer,ProductoSerializer,ProductoGETSerializer,ProductoImagenSerializer,ProveedorSerializer,CompraSerializer,)
 
 #CATEGORIA
 
@@ -104,7 +104,38 @@ class ProveedorGetViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [PermissionVendedor]
 
 #PRODUCTOS
+class ProductoViewSet(viewsets.ModelViewSet):
+    queryset= Producto.objects.filter(is_active = True)
+    serializer_class = ProductoSerializer
 
+    def get_authenticators(self):
+        if self.request.method == 'GET':
+            return []
+        return super().get_authenticators()
+    
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [PermissionVendedor]
+        return [permission() for permission in permission_classes]
+    
+    @action(detail=True, methods=['post'])
+    def eliminado_logico(self, request, pk:None):
+        producto = self.get_object()
+        timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
+        producto.is_active = False
+        producto.nombre = f'delete-{producto.nombre}-{timestamp}'
+        producto.sku = f'delete-{producto.sku}-{timestamp}'
+        producto.save()
+        return Response(
+            {'detail':'El producto se elimino correctamente'},
+            status= status.HTTP_200_OK
+        )
+
+class ProductoGetViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Producto.objects.filter(is_active = True).select_related()
+    serializer_class = ProductoGETSerializer
 
 
 
