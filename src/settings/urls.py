@@ -24,12 +24,23 @@ from catalogo.routers import router as catalogo_routers
 from proveedores.routers import router as proveedores_routers
 from compras.routers import router as compras_routers
 from ventas.routers import router as ventas_routers
+from usuarios.views import inicio
 
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView
+)
 urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('admin/', admin.site.urls),
+
+    # Documentación interactiva
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/schema/swagger/',SpectacularSwaggerView.as_view(url_name='schema'),name='swagger-ui'),
+
+    path('', inicio, name='inicio'),
 
     path('api/usuarios/', include(usuarios_routers.urls)),
     path('api/catalogo/', include(catalogo_routers.urls)),

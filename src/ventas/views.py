@@ -13,10 +13,6 @@ class VentaViewSet(viewsets.ModelViewSet):
     queryset = Venta.objects.filter(is_active=True).order_by('-created_at')
     serializer_class = VentaSerializer
 
-    def get_authenticators(self):
-        if self.request.method == 'GET':
-            return []
-        return super().get_authenticators()
 
     def get_permissions(self):
         if self.request.method == 'GET':
@@ -47,11 +43,6 @@ class VentaGetViewSet(viewsets.ReadOnlyModelViewSet):
 class DetalleVentaViewSet(viewsets.ModelViewSet):
     queryset = DetalleVenta.objects.filter(is_active=True).order_by('-created_at')
     serializer_class = DetalleVentaSerializer
-
-    def get_authenticators(self):
-        if self.request.method == 'GET':
-            return []
-        return super().get_authenticators()
 
     def get_permissions(self):
         if self.request.method == 'GET':
