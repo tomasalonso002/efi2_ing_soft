@@ -1,4 +1,5 @@
 from rest_framework import status, viewsets
+from django.shortcuts import render
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -17,12 +18,6 @@ from .serializers import UsuarioPublicSerializer,UsuarioSerializer, ListaDeseosG
 class UserClienteViewSets(viewsets.ModelViewSet):
     queryset = UsuarioPersonalizado.objects.filter(is_active = True, groups__name = 'Cliente' ).order_by('-id')
     serializer_class = UsuarioSerializer
-    
-    #Esta funcion se utiliza para methods que no requieren autenticacion del user. Por si el TOKEN esta vacio, no retorna un status_code:401
-    def get_authenticators(self):
-        if self.request.method == 'POST':
-            return []
-        return super().get_authenticators()
 
     def get_permissions(self):
         if self.request.method == 'POST':
@@ -56,6 +51,7 @@ class UserClienteGetViewSets(viewsets.ReadOnlyModelViewSet):
     serializer_class = UsuarioPublicSerializer
     permission_classes=[PermissionVendedor]
 
+
 #View UsuarioVendedor
 class UserVendedorViewSets(viewsets.ModelViewSet):
     queryset = UsuarioPersonalizado.objects.filter(is_active = True,  groups__name = 'Vendedor' ).order_by('-id')
@@ -80,6 +76,7 @@ class UserVendedorViewSets(viewsets.ModelViewSet):
             {'detail':'El vendedor se elimino correctamente'},
             status= status.HTTP_200_OK
         )
+
 
 #GET ReadOnly UsuarioVendedor
 class UserVendedorGetViewSets(viewsets.ReadOnlyModelViewSet):
@@ -113,3 +110,11 @@ class ListaDeseosProductosViewSets(viewsets.ReadOnlyModelViewSet):
     queryset = ListaDeseosProductos.objects.filter(is_active=True).select_related('usuario', 'producto')
     serializer_class = ListaDeseosGetSerializer
     permission_classes = [PermissionCliente]
+
+
+#RENDERIZADO DE TEMPLETE
+def inicio(request):
+    return render(
+        request,
+        'usuarios/inicio.html',
+    )
