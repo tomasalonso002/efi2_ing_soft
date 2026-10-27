@@ -24,12 +24,14 @@ from catalogo.routers import router as catalogo_routers
 from proveedores.routers import router as proveedores_routers
 from compras.routers import router as compras_routers
 from ventas.routers import router as ventas_routers
-
+from usuarios.views import inicio
 urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('admin/', admin.site.urls),
+
+    path('', inicio, name='inicio'),
 
     path('api/usuarios/', include(usuarios_routers.urls)),
     path('api/catalogo/', include(catalogo_routers.urls)),

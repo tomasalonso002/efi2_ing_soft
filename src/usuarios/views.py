@@ -1,4 +1,5 @@
 from rest_framework import status, viewsets
+from django.shortcuts import render
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -113,3 +114,11 @@ class ListaDeseosProductosViewSets(viewsets.ReadOnlyModelViewSet):
     queryset = ListaDeseosProductos.objects.filter(is_active=True).select_related('usuario', 'producto')
     serializer_class = ListaDeseosGetSerializer
     permission_classes = [PermissionCliente]
+
+
+#RENDERIZADO DE TEMPLETE
+def inicio(request):
+    return render(
+        request,
+        'usuarios/inicio.html',
+    )
