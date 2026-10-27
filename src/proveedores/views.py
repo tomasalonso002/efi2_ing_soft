@@ -13,11 +13,6 @@ class ProveedorViewSet(viewsets.ModelViewSet):
     queryset = Proveedor.objects.filter(is_active=True).order_by('-created_at')
     serializer_class = ProveedorSerializer
 
-    def get_authenticators(self):
-        if self.request.method == 'GET':
-            return []
-        return super().get_authenticators()
-
     def get_permissions(self):
         if self.request.method == 'GET':
             permission_classes = [AllowAny]

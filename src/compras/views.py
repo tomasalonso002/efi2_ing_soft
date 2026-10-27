@@ -13,11 +13,6 @@ class CompraViewSet(viewsets.ModelViewSet):
     queryset = Compra.objects.filter(is_active=True).order_by('-created_at')
     serializer_class = CompraSerializer
 
-    def get_authenticators(self):
-        if self.request.method == 'GET':
-            return []
-        return super().get_authenticators()
-
     def get_permissions(self):
         if self.request.method == 'GET':
             permission_classes = [AllowAny]
@@ -53,11 +48,6 @@ class CompraListGetViewSet(viewsets.ReadOnlyModelViewSet):
 class DetalleCompraViewSet(viewsets.ModelViewSet):
     queryset = DetalleCompra.objects.filter(is_active=True).order_by('-created_at')
     serializer_class = DetalleCompraSerializer
-
-    def get_authenticators(self):
-        if self.request.method == 'GET':
-            return []
-        return super().get_authenticators()
 
     def get_permissions(self):
         if self.request.method == 'GET':

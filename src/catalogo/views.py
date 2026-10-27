@@ -19,11 +19,6 @@ class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.filter(is_active=True).order_by('nombre')
     serializer_class = CategoriaSerializer
 
-    def get_authenticators(self):
-        if self.request.method == 'GET':
-            return []
-        return super().get_authenticators()
-
     def get_permissions(self):
         if self.request.method == 'GET':
             permission_classes = [AllowAny]
@@ -50,11 +45,6 @@ class CategoriaGetViewSet(viewsets.ReadOnlyModelViewSet):
 class MarcaViewSet(viewsets.ModelViewSet):
     queryset = Marca.objects.filter(is_active=True).order_by('nombre')
     serializer_class = MarcaSerializer
-
-    def get_authenticators(self):
-        if self.request.method == 'GET':
-            return []
-        return super().get_authenticators()
 
     def get_permissions(self):
         if self.request.method == 'GET':
@@ -88,11 +78,6 @@ class ProductoViewSet(viewsets.ModelViewSet):
     search_fields = ['nombre', 'sku', 'descripcion_corta']
     ordering_fields = ['precio_lista', 'precio_oferta', 'stock_total', 'created_at']
     ordering = ['-created_at']
-
-    def get_authenticators(self):
-        if self.request.method == 'GET':
-            return []
-        return super().get_authenticators()
 
     def get_permissions(self):
         if self.request.method == 'GET':
