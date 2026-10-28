@@ -96,11 +96,10 @@ class ListaDeseosProductosPostViewSets(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def eliminado_logico(self, request, pk=None):
-        producto = self.get_object()
+        item = self.get_object()
         timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
-        producto.is_active = False
-        producto.nombre = f'delete-{producto}-{timestamp}'
-        producto.save()
+        item.is_active = False
+        item.save()
         return Response(
             {'detail':'Se quito el producto de lista de deseos'},
             status= status.HTTP_200_OK
