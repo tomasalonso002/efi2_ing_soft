@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: mi-api-django
+    runtime: python
+    plan: free
+    buildCommand: bash build.sh
+    startCommand: cd src && gunicorn settings.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: http://localhost:5173
+      - key: DJANGO_SUPERUSER_USERNAME
+        value: admin
+      - key: DJANGO_SUPERUSER_EMAIL
+        value: admin@example.com
+      - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false
