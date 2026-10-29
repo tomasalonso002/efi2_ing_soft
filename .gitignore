@@ -28,3 +28,6 @@ media/
 
 *.sql
 memoria.md
+
+*.md
+!README.md

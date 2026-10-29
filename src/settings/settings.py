@@ -94,6 +94,7 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60), #Tiempo de vida del token de acceso
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1), #Tiempo de vida del token de refresco
     "AUTH_HEADER_TYPES": ("Bearer",), #El tipo de autenticacion que se va a utilizar
+    "TOKEN_OBTAIN_SERIALIZER": "usuarios.serializers.MyTokenObtainPairSerializer",
 }
 
 # Database
@@ -157,7 +158,7 @@ MAILERS = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "http://localhost:3000"
 ]
 
 CORS_ALLOW_CREDENTIALS = True

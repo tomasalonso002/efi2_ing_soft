@@ -17,8 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView 
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+from usuarios.serializers import MyTokenObtainPairSerializer
 from usuarios.routers import router as usuarios_routers
 from catalogo.routers import router as catalogo_routers
 from proveedores.routers import router as proveedores_routers
@@ -31,7 +32,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView
 )
 urlpatterns = [
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain'),
+    path('api/token/', TokenObtainPairView.as_view(serializer_class=MyTokenObtainPairSerializer), name='token_obtain'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('admin/', admin.site.urls),
