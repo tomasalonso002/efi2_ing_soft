@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Venta, DetalleVenta
 from catalogo.serializers import ProductoListSerializer
+from usuarios.serializers import UsuarioPublicSerializer
 
 
 class DetalleVentaSerializer(serializers.ModelSerializer):
@@ -16,6 +17,18 @@ class DetalleVentaSerializer(serializers.ModelSerializer):
 
 
 class VentaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Venta
+        fields = [
+            'id', 'cliente', 'estado', 'nro_factura',
+            'created_at', 'is_active'
+        ]
+        read_only_fields = ['id', 'created_at', 'is_active']
+
+
+class VentaGetSerializer(serializers.ModelSerializer):
+    cliente = UsuarioPublicSerializer(read_only=True)
+
     class Meta:
         model = Venta
         fields = [
