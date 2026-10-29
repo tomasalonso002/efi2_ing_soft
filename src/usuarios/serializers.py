@@ -8,9 +8,18 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        groups = user.groups.all()
-        token['role'] = groups.first().name if groups else ''
+
+        # 1. Si es superusuario, siempre es admin
+        if user.is_superuser:
+            token['role'] = 'admin'
+        else:
+            # 2. Si no, buscamos en los grupos y forzamos minúsculas
+            groups = user.groups.all()
+            token['role'] = groups.first().name.lower() if groups else ''
+
         return token
+
+
 #Serializer GET usuario
 class UsuarioPublicSerializer(serializers.ModelSerializer):
     class Meta:
