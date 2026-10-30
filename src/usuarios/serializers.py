@@ -3,6 +3,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import Group
 from .models import UsuarioPersonalizado, ListaDeseosProductos
 from catalogo.serializers import ProductoListSerializer
+from django.db import IntegrityError
+from rest_framework.exceptions import ValidationError
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -40,22 +42,35 @@ class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = UsuarioPersonalizado
         fields = [
-            'id',
-            'username',
-            'last_name',
-            'first_name',
-            'password',
-            'telefono',
-            'email',
-            'dni',
+            'id', 'username', 'last_name', 'first_name',
+            'password', 'telefono', 'email', 'dni',
         ]
-        read_only_fields=['id']
-        #Indica que el campo 'password' es de solo escritura
+        read_only_fields = ['id']
         extra_kwargs = {
             'password': {'write_only': True}
-            }
+        }
+
     def create(self, validated_data):
-            return UsuarioPersonalizado.objects.create_user(**validated_data)        
+        # 1. Limpiamos strings vacíos para que no choquen con las validaciones de la DB
+        if validated_data.get('dni') == '':
+            validated_data['dni'] = None
+        if validated_data.get('telefono') == '':
+            validated_data['telefono'] = None
+        if validated_data.get('email') == '':
+            validated_data['email'] = None
+
+        try:
+            # 2. Creamos el usuario
+            usuario = UsuarioPersonalizado.objects.create_user(**validated_data)
+
+            # 3. Le asignamos el grupo 'Cliente' (si no existe, lo crea)
+            grupo_cliente, _ = Group.objects.get_or_create(name='Cliente')
+            usuario.groups.add(grupo_cliente)
+
+            return usuario
+        except IntegrityError:
+            # Si el username o DNI ya existen, devolvemos un error 400 en vez de un 500
+            raise ValidationError({"detail": "El nombre de usuario o el DNI ya están registrados."})
 
 
 class ListaDeseosPostSerializer(serializers.ModelSerializer):
