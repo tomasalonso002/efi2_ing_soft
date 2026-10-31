@@ -12,13 +12,7 @@ from .serializers import CompraSerializer, DetalleCompraSerializer, CompraListSe
 class CompraViewSet(viewsets.ModelViewSet):
     queryset = Compra.objects.filter(is_active=True).order_by('-created_at')
     serializer_class = CompraSerializer
-
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            permission_classes = [AllowAny]
-        else:
-            permission_classes = [PermissionVendedor]
-        return [permission() for permission in permission_classes]
+    permission_classes = [PermissionVendedor]
 
     @action(detail=True, methods=['post'])
     def eliminado_logico(self, request, pk=None):
@@ -36,25 +30,19 @@ class CompraViewSet(viewsets.ModelViewSet):
 class CompraGetViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Compra.objects.filter(is_active=True).select_related('proveedor').order_by('-created_at')
     serializer_class = CompraSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [PermissionVendedor]
 
 
 class CompraListGetViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Compra.objects.filter(is_active=True).select_related('proveedor').prefetch_related('detalles').order_by('-created_at')
     serializer_class = CompraListSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [PermissionVendedor]
 
 
 class DetalleCompraViewSet(viewsets.ModelViewSet):
     queryset = DetalleCompra.objects.filter(is_active=True).order_by('-created_at')
     serializer_class = DetalleCompraSerializer
-
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            permission_classes = [AllowAny]
-        else:
-            permission_classes = [PermissionVendedor]
-        return [permission() for permission in permission_classes]
+    permission_classes = [PermissionVendedor]
 
     @action(detail=True, methods=['post'])
     def eliminado_logico(self, request, pk=None):
@@ -71,4 +59,4 @@ class DetalleCompraViewSet(viewsets.ModelViewSet):
 class DetalleCompraGetViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = DetalleCompra.objects.filter(is_active=True).select_related('compra', 'producto').order_by('-created_at')
     serializer_class = DetalleCompraSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [PermissionVendedor]
