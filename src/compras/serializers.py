@@ -5,7 +5,6 @@ from catalogo.serializers import ProductoListSerializer
 
 
 class DetalleCompraSerializer(serializers.ModelSerializer):
-    producto = ProductoListSerializer(read_only=True)
 
     class Meta:
         model = DetalleCompra

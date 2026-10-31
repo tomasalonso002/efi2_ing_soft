@@ -2,7 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django.utils import timezone
 from rest_framework.permissions import AllowAny
-from usuarios.permissions import PermissionVendedor
+from usuarios.permissions import PermissionVendedor, PermissionCliente
 from rest_framework.decorators import action
 
 from .models import Venta, DetalleVenta
@@ -12,14 +12,7 @@ from .serializers import VentaSerializer, VentaGetSerializer, DetalleVentaSerial
 class VentaViewSet(viewsets.ModelViewSet):
     queryset = Venta.objects.filter(is_active=True).order_by('-created_at')
     serializer_class = VentaSerializer
-
-
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            permission_classes = [AllowAny]
-        else:
-            permission_classes = [PermissionVendedor]
-        return [permission() for permission in permission_classes]
+    permission_classes = [PermissionCliente]
 
     @action(detail=True, methods=['post'])
     def eliminado_logico(self, request, pk=None):
@@ -33,12 +26,10 @@ class VentaViewSet(viewsets.ModelViewSet):
             status=status.HTTP_200_OK
         )
 
-
 class VentaGetViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Venta.objects.filter(is_active=True).select_related('cliente').order_by('-created_at')
     serializer_class = VentaGetSerializer
-    permission_classes = [AllowAny]
-
+    permission_classes = [PermissionCliente]
 
 class DetalleVentaViewSet(viewsets.ModelViewSet):
     queryset = DetalleVenta.objects.filter(is_active=True).order_by('-created_at')
@@ -46,7 +37,7 @@ class DetalleVentaViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.request.method == 'GET':
-            permission_classes = [AllowAny]
+            permission_classes = [PermissionCliente]
         else:
             permission_classes = [PermissionVendedor]
         return [permission() for permission in permission_classes]
@@ -66,4 +57,4 @@ class DetalleVentaViewSet(viewsets.ModelViewSet):
 class DetalleVentaGetViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = DetalleVenta.objects.filter(is_active=True).select_related('venta', 'producto').order_by('-created_at')
     serializer_class = DetalleVentaSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [PermissionCliente]
