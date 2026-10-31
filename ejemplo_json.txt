@@ -1,0 +1,350 @@
+## Autenticacion
+
+
+## Usuarios
+ - http://127.0.0.1:8001/api/usuarios/cliente/ 
+ 
+ - Method: POST
+ - Sin autenticacion
+ - JSON (POST) :
+    {
+
+    }
+
+- http://127.0.0.1:8001/api/usuarios/lista-deseos
+
+    - Method: POST
+    - Requiere autenticacion minimo de cliente
+    - JSON(POST) :
+    {
+        "producto":4
+    }
+
+- http://127.0.0.1:8001/api/usuarios/lista-deseos/8
+    - Method: GET
+    - Requiere autenticacion minimo de cliente
+
+- http://127.0.0.1:8001/api/usuarios/lista-deseos-get
+- http://127.0.0.1:8001/api/usuarios/lista-deseos-get/4
+
+    - Method: GET
+    - Requiere autenticacion minimo de cliente
+
+## Catalogo
+
+**Categorías**
+
+- http://127.0.0.1:8001/api/catalogo/categoria/
+    
+     - Method: GET, POST
+     - GET: Sin autenticación.
+     - POST: Requiere autenticación mínimo de vendedor.
+     - JSON (POST):
+    {
+        "nombre": "Electrónica",
+        "descripcion": "Productos electrónicos"
+    }
+
+- http://127.0.0.1:8001/api/catalogo/categoria/1/
+
+    - Method: GET, PUT
+    - GET: Sin autenticación.
+    - PUT: Requiere autenticación mínimo de vendedor.
+
+- http://127.0.0.1:8001/api/catalogo/categoria/1/eliminado_logico/
+    
+    - Method: POST
+    - Requiere autenticación mínimo de vendedor.
+    - Elimina lógicamente una categoría.
+
+
+- http://127.0.0.1:8001/api/catalogo/categoria-get/
+
+    - Method: GET
+    - Sin autenticación.
+
+- http://127.0.0.1:8001/api/catalogo/categoria-get/1/
+    
+    - Method: GET
+    - Sin autenticación.
+
+
+**Marca**
+- http://127.0.0.1:8001/api/catalogo/marca/
+    
+    - Method: GET, POST
+    - GET: Sin autenticación.
+    - POST: Requiere autenticación mínimo de vendedor.
+    - JSON (POST):
+    {
+        "nombre": "Samsung",
+        "logo": null,
+        "descripcion": "Marca de tecnología",
+        "pais_origen": "Corea del Sur"
+    }
+
+- http://127.0.0.1:8001/api/catalogo/marca/1/
+    
+    - Method: GET, PUT
+    - GET: Sin autenticación.
+    - PUT: Requiere autenticación mínimo de vendedor.
+
+- http://127.0.0.1:8001/api/catalogo/marca/1/eliminado_logico/
+ 
+    - Method: POST
+    - Requiere autenticación mínimo de vendedor.
+    - Elimina lógicamente una marca.
+
+- http://127.0.0.1:8001/api/catalogo/marca-get/
+ 
+    - Method: GET
+    - Sin autenticación.
+
+- http://127.0.0.1:8001/api/catalogo/marca-get/1/
+    
+    - Method: GET
+    - Sin autenticación.
+
+**Productos**
+
+- http://127.0.0.1:8001/api/catalogo/producto/
+    
+    - Method: GET, POST
+    - GET: Sin autenticación.
+    - POST: Requiere autenticación mínimo de vendedor.
+    - JSON (POST):
+    {
+        "nombre": "Mouse Logitech",
+        "descripcion_corta": "Mouse inalámbrico",
+        "descripcion_larga": "Mouse inalámbrico con conexión USB",
+        "sku": "LOG-MOU-001",
+        "precio_lista": "25000.00",
+        "precio_oferta": "22000.00",
+        "imagen_url": "https://ejemplo.com/mouse.jpg",
+        "stock_total": 20,
+        "destacado": true,
+        "marca": 1,
+        "categoria": 1
+    }
+
+- http://127.0.0.1:8001/api/catalogo/producto/1/
+    
+    - Method: GET, PUT
+    - GET: Sin autenticación.
+    - PUT: Requiere autenticación mínimo de vendedor.
+
+- http://127.0.0.1:8001/api/catalogo/producto/1/eliminado_logico/
+
+    - Method: POST
+    - Requiere autenticación mínimo de vendedor.
+    - Elimina lógicamente un producto.
+
+- http://127.0.0.1:8001/api/catalogo/producto-get/
+
+    - Method: GET
+    - Sin autenticación.
+    - Devuelve los productos incluyendo los datos completos de marca y categoría.
+
+- http://127.0.0.1:8001/api/catalogo/producto-get/1/
+    
+    - Method: GET
+    - Sin autenticación.
+
+## Proveedores
+
+- http://127.0.0.1:8001/api/proveedores/proveedor/
+   
+    - Method: GET, POST
+    - GET: Sin autenticación.
+    - POST: Requiere autenticación mínimo de vendedor.
+    - JSON (POST):
+    {
+        "nombre": "Proveedor Ejemplo",
+        "cuit": "20-12345678-9",
+        "email": "proveedor@ejemplo.com",
+        "telefono": "3584123456",
+        "direccion": "Av. San Martín 123"
+    }
+
+- http://127.0.0.1:8001/api/proveedores/proveedor/1/
+    
+    - Method: GET, PUT, PATCH, DELETE
+    - GET: Sin autenticación.
+    - PUT: Requiere autenticación mínimo de vendedor.
+
+- http://127.0.0.1:8001/api/proveedores/proveedor/1/eliminado_logico/
+
+    - Method: POST
+    - Requiere autenticación mínimo de vendedor.
+    - Elimina lógicamente un proveedor.
+
+- http://127.0.0.1:8001/api/proveedores/proveedor-get/
+    
+    - Method: GET
+    - Sin autenticación.
+
+- http://127.0.0.1:8001/api/proveedores/proveedor-get/1/
+    - Method: GET
+    - Sin autenticación.
+
+## Compras
+
+**Compras**
+- http://127.0.0.1:8001/api/compras/compra/
+    - Method: GET, POST
+    - GET: Requiere autenticación mínimo de vendedor.
+    - POST: Requiere autenticación mínimo de vendedor.
+    - JSON (POST):
+    {
+        "proveedor": 1,
+        "total": "150000.00",
+        "estado": "pendiente",
+        "nro_factura": "FAC-0001"
+    }
+
+- http://127.0.0.1:8001/api/compras/compra/1/
+    
+    - Method: GET, PUT
+    - GET: Requiere autenticación mínimo de vendedor.
+    - PUT: Requiere autenticación mínimo de vendedor.
+
+- http://127.0.0.1:8001/api/compras/compra/1/eliminado_logico/
+
+    - Method: POST
+    - Requiere autenticación mínimo de vendedor.
+    - Elimina lógicamente una compra.
+
+- http://127.0.0.1:8001/api/compras/compra-get/
+
+    - Method: GET
+    - Requiere autenticación mínimo de vendedor.
+    - Devuelve las compras.
+
+- http://127.0.0.1:8001/api/compras/compra-get/1/
+
+    - Method: GET
+    - Requiere autenticación mínimo de vendedor.
+
+- http://127.0.0.1:8001/api/compras/compra-list/
+
+    - Method: GET
+    - Requiere autenticación mínimo de vendedor.
+    - Devuelve las compras incluyendo los datos completos del proveedor y sus detalles.
+
+- http://127.0.0.1:8001/api/compras/compra-list/1/
+    - Method: GET
+    - Requiere autenticación mínimo de vendedor.
+
+**Detalles de compra**
+
+- http://127.0.0.1:8001/api/compras/detalle-compra/
+
+    - Method: GET, POST
+    - GET: Requiere autenticación mínimo de vendedor.
+    - POST: Requiere autenticación mínimo de vendedor.
+    - JSON (POST):
+    {
+        "compra": 1,
+        "producto": 1,
+        "unidades": 10,
+        "precio": "15000.00"
+    }
+
+- http://127.0.0.1:8001/api/compras/detalle-compra/1/
+    
+    - Method: GET, PUT
+    - GET: Requiere autenticación mínimo de vendedor.
+    - PUT: Requiere autenticación mínimo de vendedor.
+
+- http://127.0.0.1:8001/api/compras/detalle-compra/1/eliminado_logico/
+
+    - Method: POST
+    - Requiere autenticación mínimo de vendedor.
+    - Elimina lógicamente un detalle de compra.
+
+- http://127.0.0.1:8001/api/compras/detalle-compra-get/
+    
+    - Method: GET
+    - GET: Requiere autenticación mínimo de vendedor.
+    - Devuelve los detalles de compra incluyendo los datos completos del producto.
+
+- http://127.0.0.1:8001/api/compras/detalle-compra-get/1/
+    
+    - Method: GET
+    - GET: Requiere autenticación mínimo de vendedor.
+
+## Ventas
+
+**Ventas**
+- http://127.0.0.1:8001/api/ventas/venta/
+
+    - Method: GET, POST
+    - GET: Requiere autenticación mínimo de vendedor.
+    - POST: Requiere autenticación mínimo de vendedor.
+    - JSON (POST):
+    {
+        "cliente": 1,
+        "estado": "pendiente",
+        "nro_factura": "FAC-0001"
+    }
+
+- http://127.0.0.1:8001/api/ventas/venta/1/
+
+    - Method: GET, PUT
+    - GET: Requiere autenticación mínimo de cliente.
+    - PUT, PATCH, DELETE: Requiere autenticación mínimo de vendedor.
+
+- http://127.0.0.1:8001/api/ventas/venta/1/eliminado_logico/
+
+    - Method: POST
+    - Requiere autenticación mínimo de vendedor.
+    - Elimina lógicamente una venta.
+
+- http://127.0.0.1:8001/api/ventas/venta-get/
+
+    - Method: GET
+    - Requiere autenticación mínimo de cliente.
+    - Devuelve las ventas incluyendo los datos públicos del cliente y el total calculado de cada venta.
+
+- http://127.0.0.1:8001/api/ventas/venta-get/1/
+    
+    - Method: GET
+    - Requiere autenticación mínimo de cliente.
+
+**Detalles de venta**
+
+- http://127.0.0.1:8001/api/ventas/detalle-venta/
+   
+    - Method: GET, POST
+    - GET: Requiere autenticación mínimo de cliente.
+    - POST: Requiere autenticación mínimo de vendedor.
+    - JSON (POST):
+    {
+        "venta": 1,
+        "unidades": 2,
+        "precio_unitario": "25000.00"
+    }
+
+
+- http://127.0.0.1:8001/api/ventas/detalle-venta/1/
+  
+  - Method: GET, PUT, PATCH, DELETE
+  - GET: Sin autenticación.
+  - PUT:Requiere autenticación mínimo de cliente..
+
+- http://127.0.0.1:8001/api/ventas/detalle-venta/1/eliminado_logico/
+
+  - Method: POST
+  - Requiere autenticación mínimo de vendedor.
+  - Elimina lógicamente un detalle de venta.
+
+- http://127.0.0.1:8001/api/ventas/detalle-venta-get/
+
+  - Method: GET
+  - Requiere autenticación mínimo de cliente.
+  - Devuelve los detalles de venta incluyendo los datos completos del producto.
+
+- http://127.0.0.1:8001/api/ventas/detalle-venta-get/1/
+
+  - Method: GET
+  - Requiere autenticación mínimo de cliente.
