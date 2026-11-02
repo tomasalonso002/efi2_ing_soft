@@ -19,6 +19,7 @@ class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.filter(is_active=True).order_by('nombre')
     serializer_class = CategoriaSerializer
 
+
     def get_permissions(self):
         if self.request.method == 'GET':
             permission_classes = [AllowAny]
@@ -32,7 +33,7 @@ class CategoriaViewSet(viewsets.ModelViewSet):
         categoria.is_active = False
         categoria.save()
         return Response(
-            {'detail':'La categoria se elimino correctamente'},
+            {'detail':'La categoria se elimino correctamente.'},
             status= status.HTTP_200_OK
         )
 
